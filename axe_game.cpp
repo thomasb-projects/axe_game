@@ -7,6 +7,8 @@ int main()
 
     while (true)
     {
-
+        BeginDrawing();
+        ClearBackground(RED);
+        EndDrawing();
     }
 }
