@@ -1,5 +1,12 @@
 #include "raylib.h"
 int main()
 {
-    InitWindow(1350,1200,"Window of AxeGame");
+    int width;
+    width = 350;
+    InitWindow(width,200,"Window of AxeGame");
+
+    while (true)
+    {
+
+    }
 }
