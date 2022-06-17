@@ -5,7 +5,7 @@ int main()
     width = 350;
     InitWindow(width,200,"Window of AxeGame");
 
-    while (true)
+    while (WindowShouldClose() != true)
     {
         BeginDrawing();
         ClearBackground(RED);
