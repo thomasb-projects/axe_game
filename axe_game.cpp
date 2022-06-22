@@ -5,9 +5,6 @@ int main()
     int height(450);
     InitWindow(width,height,"Window of AxeGame");
 
-    //collision check
-    bool collision_with_axe{true};
-
     //circle coordinates
     int circle_x{200};
     int circle_y{200};
@@ -35,6 +32,12 @@ int main()
     int u_axe_y{axe_y};
     int b_axe_y{axe_y + axe_height};
 
+    //collision check
+    bool collision_with_axe = 
+                (l_circle_x <= r_axe_x) && 
+                (r_circle_x >= l_axe_x) && 
+                (u_circle_y <= b_axe_y) && (b_circle_y >= u_axe_y);
+
     //set axe direction
     int direction{10};
 
@@ -44,17 +47,43 @@ int main()
         BeginDrawing();
         ClearBackground(WHITE);
 
+        if(l_circle_x <= r_axe_x && r_circle_x >= l_axe_x && u_circle_y <= b_axe_y && b_circle_y >= u_axe_y)
+        {
+            collision_with_axe = true;
+        }
+        else
+        {
+            collision_with_axe = false;
+        }
+
         if(collision_with_axe == true)
         {
             DrawText("Game Over!", 370, 200, 20, RED);
         }
-    
         else
         {
             //game logic begins
+            
+            //update circle hitbox
+            l_circle_x = circle_x - circle_radius;
+            r_circle_x = circle_x + circle_radius;
+            u_circle_y = circle_y - circle_radius;
+            b_circle_y = circle_y + circle_radius;
+
+            //update axe hitbox
+            l_axe_x = axe_x;
+            r_axe_x = axe_x + axe_width;
+            u_axe_y = axe_y;
+            b_axe_y = axe_y + axe_height;
+
+            //update collision check
+            collision_with_axe = 
+                (l_circle_x <= r_axe_x) && 
+                (r_circle_x >= l_axe_x) && 
+                (u_circle_y <= b_axe_y) && (b_circle_y >= u_axe_y);
 
             DrawCircle(circle_x, circle_y, circle_radius, BLUE);
-            DrawRectangle(axe_x,axe_y,axe_width,axe_height,RED);
+            DrawRectangle(axe_x, axe_y, axe_width, axe_height, RED);
             
             //move the axe
             axe_y += direction;
@@ -67,7 +96,7 @@ int main()
             } */
 
             //axe changes direction
-            if (axe_y > height || axe_y < width)
+            if (axe_y > height || axe_y < 0)
             {
                 direction = -direction;
             }
@@ -77,7 +106,7 @@ int main()
                 circle_x += 10;
             }
 
-            if (IsKeyDown(KEY_A)  && circle_x > height)
+            if (IsKeyDown(KEY_A)  && circle_x > 0)
             {
                 circle_x -= 10;
             }
