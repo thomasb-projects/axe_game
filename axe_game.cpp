@@ -5,6 +5,8 @@ int main()
     int height(450);
     InitWindow(width,height,"Window of AxeGame");
 
+    //collision check
+    bool collision_with_axe{true};
 
     //circle coordinates
     int circle_x{200};
@@ -42,38 +44,46 @@ int main()
         BeginDrawing();
         ClearBackground(WHITE);
 
-        //game logic begins
-
-        DrawCircle(circle_x, circle_y, circle_radius, BLUE);
-        DrawRectangle(axe_x,axe_y,50,50,RED);
-        
-        //move the axe
-        axe_y += direction;
-
-        //respawn axe
-        /*
-        if (axe_y > 450)
+        if(collision_with_axe == true)
         {
-            axe_y = 0;
-        } */
-
-        //axe changes direction
-        if (axe_y > 450 || axe_y < 0)
-        {
-            direction = -direction;
+            DrawText("Game Over!", 370, 200, 20, RED);
         }
-
-        if (IsKeyDown(KEY_D) && circle_x < 800)
+    
+        else
         {
-            circle_x += 10;
-        }
+            //game logic begins
 
-        if (IsKeyDown(KEY_A)  && circle_x > 0)
-        {
-            circle_x -= 10;
-        }
+            DrawCircle(circle_x, circle_y, circle_radius, BLUE);
+            DrawRectangle(axe_x,axe_y,axe_width,axe_height,RED);
+            
+            //move the axe
+            axe_y += direction;
 
-        //game logic ends
+            //respawn axe
+            /*
+            if (axe_y > 450)
+            {
+                axe_y = 0;
+            } */
+
+            //axe changes direction
+            if (axe_y > height || axe_y < width)
+            {
+                direction = -direction;
+            }
+
+            if (IsKeyDown(KEY_D) && circle_x < width)
+            {
+                circle_x += 10;
+            }
+
+            if (IsKeyDown(KEY_A)  && circle_x > height)
+            {
+                circle_x -= 10;
+            }
+
+            //game logic ends
+        }
         EndDrawing();
     }
 }
